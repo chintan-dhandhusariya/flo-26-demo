@@ -2,24 +2,27 @@ import { useState } from 'react'
 import notes from './data/notes.json'
 import type { Note } from './types'
 import NoteCard from './components/NoteCard'
-import EditorPanel from './components/EditorPanel'
 
 export default function App() {
   const [items, setItems] = useState<Note[]>(notes as Note[])
 
-  const handleDelete = (id: string) => {
+  const handleRemove = (id: string) => {
     setItems((prev) => prev.filter((note) => note.id !== id))
   }
+
+  const sorted = [...items].sort((a, b) => {
+    if (a.pinned !== b.pinned) return a.pinned ? -1 : 1
+    return b.createdAt.localeCompare(a.createdAt)
+  })
 
   return (
     <main className="app">
       <h1>QuickNote</h1>
       <p>Your notes, right here.</p>
-      <EditorPanel />
       <ul className="note-list">
-        {items.map((note) => (
+        {sorted.map((note) => (
           <li key={note.id}>
-            <NoteCard note={note} editable onDelete={handleDelete} />
+            <NoteCard note={note} onRemove={handleRemove} />
           </li>
         ))}
       </ul>

@@ -2,20 +2,20 @@ import type { Note } from '../types'
 
 interface NoteCardProps {
   note: Note
-  /** Enables inline editing surface (prototype). */
-  editable?: boolean
-  /** Called with the note id when the user deletes a note. */
-  onDelete: (id: string) => void
+  /** Called with the note id when the user removes a note. */
+  onRemove: (id: string) => void
 }
 
-export default function NoteCard({ note, editable = false, onDelete }: NoteCardProps) {
+export default function NoteCard({ note, onRemove }: NoteCardProps) {
   return (
     <article className="note-card">
-      <h3>{note.title}</h3>
+      <h3>
+        {note.title}
+        {note.pinned && <span className="badge">pinned</span>}
+      </h3>
       <p>{note.body}</p>
-      {editable && <span className="badge">editable</span>}
-      <button type="button" onClick={() => onDelete(note.id)}>
-        Delete
+      <button type="button" onClick={() => onRemove(note.id)}>
+        Remove
       </button>
     </article>
   )
