@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import notes from './data/notes.json'
+import { notes } from './data/notes'
 import type { Note } from './types'
 import NoteCard from './components/NoteCard'
 
 export default function App() {
-  const [items, setItems] = useState<Note[]>(notes as Note[])
+  const [items, setItems] = useState<Note[]>(notes)
 
   const handleRemove = (id: string) => {
     setItems((prev) => prev.filter((note) => note.id !== id))
